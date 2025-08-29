@@ -10,7 +10,7 @@ namespace Common.ProviderServices
 {
     public class MessageSender : IMessageSender
     {
-        private readonly Request _request;
+        private Request _request;
         private readonly ITelegramService _telegramService;
         private readonly IGMailService _gMailService;
         private readonly ISendbirdService _sendbirdService;
@@ -31,18 +31,23 @@ namespace Common.ProviderServices
 
         public async Task<Response> SendAsync(Request request)
         {
-            throw new NotImplementedException();
+            _request = request;
+
+            var providerService = await SelectChannelProviderAsync();
+            var response = await providerService.SendAsync(request);
+            return response;
         }
 
         private async Task<IMessageProvider> SelectChannelProviderAsync()
         {
+
             switch (_request.Channel)
             {
                 case Channel.Sms:
                     return await SelectSmsService();
 
                 case Channel.Email:
-                    return _gMailService; 
+                    return _gMailService;
 
                 case Channel.Telegram:
                     return _telegramService;
@@ -56,6 +61,7 @@ namespace Common.ProviderServices
         private async Task<IMessageProvider> SelectSmsService()
         {
             var recipient = _request.To as MobileRecipient;
+
             switch (recipient!.Provider)
             {
                 case SmsAggregatorType.Sendbird:
