@@ -2,7 +2,7 @@
 {
     public enum SmsAggregatorType
     {
-        Sendbird = 1,
+        Twilio = 1,
         Courier = 2,
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Services.ProviderServices.SmsProviders
 {
-    public interface ISendbirdService : IMessageProvider
+    public interface ITwilioService : IMessageProvider
     {
     }
 }

@@ -11,20 +11,21 @@ namespace Common.ProviderServices
     public class MessageSender : IMessageSender
     {
         private Request _request;
+
         private readonly ITelegramService _telegramService;
         private readonly IGMailService _gMailService;
-        private readonly ISendbirdService _sendbirdService;
-        private readonly ICourierService _courierService;
+        private readonly IPlivoService _plivoService;
+        private readonly ITwilioService _courierService;
 
 
         public MessageSender(ITelegramService telegramService,
             IGMailService gMailService,
-            ISendbirdService sendbirdService,
-            ICourierService courierService)
+            IPlivoService sendbirdService,
+            ITwilioService courierService)
         {
             _telegramService = telegramService;
             _gMailService = gMailService;
-            _sendbirdService = sendbirdService;
+            _plivoService = sendbirdService;
             _courierService = courierService;
         }
 
@@ -61,15 +62,14 @@ namespace Common.ProviderServices
         private async Task<IMessageProvider> SelectSmsService()
         {
             var recipient = _request.To as MobileRecipient;
-
             switch (recipient!.Provider)
             {
-                case SmsAggregatorType.Sendbird:
-                    return _sendbirdService;
+                case SmsAggregatorType.Twilio:
+                    return _plivoService;
                 case SmsAggregatorType.Courier:
                     return _courierService;
                 default:
-                    return _sendbirdService;
+                    return _plivoService;
             }
         }
     }

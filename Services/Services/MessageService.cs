@@ -1,6 +1,6 @@
 ﻿namespace Services.Services
 {
-    public class MessageService
+    public class MessageService : IMessageService
     {
     }
 }

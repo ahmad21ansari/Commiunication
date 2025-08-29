@@ -2,7 +2,7 @@
 
 namespace Services.ProviderServices.SmsProviders
 {
-    public interface ICourierService : IMessageProvider
+    public interface IPlivoService : IMessageProvider
     {
     }
 }
