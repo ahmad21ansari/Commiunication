@@ -1,2 +1,0 @@
-# Commiunication
-Commiunication Gateway project 
